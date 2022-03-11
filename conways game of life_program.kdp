@@ -1,0 +1,278 @@
+
+
+{
+
+living cell should die = red
+living cell should live = yellow
+dead cell should die = nothing
+dead cell should live = blue
+
+}
+
+
+Methode N
+  wenn IstSüden dann
+    LinksDrehen
+    LinksDrehen
+  *wenn
+
+  wenn IstWesten dann
+    RechtsDrehen
+  *wenn
+
+  wenn IstOsten dann
+    LinksDrehen
+  *wenn
+*Methode
+Methode S
+  wenn IstNorden dann
+    LinksDrehen
+    LinksDrehen
+  *wenn
+
+  wenn IstOsten dann
+    RechtsDrehen
+  *wenn
+
+  wenn IstWesten dann
+    LinksDrehen
+  *wenn
+*Methode
+
+Methode turn
+  LinksDrehen
+  LinksDrehen
+*Methode
+
+
+Bedingung isLiving 
+
+  wenn IstMarke(rot) dann
+    wahr
+  sonst
+    wenn IstMarke(gelb) dann
+      wahr
+    sonst 
+      falsch
+    *wenn
+  *wenn
+  
+*Bedingung
+
+Bedingung isOverpopulated 
+  wenn IstZiegel(4) dann
+    wahr
+  sonst
+    wenn IstZiegel(5) dann
+      wahr
+    sonst
+      wenn IstZiegel(6) dann
+        wahr
+      sonst
+        wenn IstZiegel(7) dann
+          wahr
+        sonst
+          wenn IstZiegel(8) dann
+            wahr
+          sonst
+            falsch
+          *wenn
+        *wenn
+      *wenn
+    *wenn
+  *wenn
+*Bedingung
+
+Methode rPtr
+  
+  N
+  wiederhole solange NichtIstWand
+    Schritt
+  *wiederhole
+  LinksDrehen
+  wiederhole solange NichtIstWand
+    Schritt
+  *wiederhole
+  S
+
+*Methode
+
+Methode checkCell
+
+  N
+  Schritt
+
+  wenn isLiving dann
+    turn
+    Hinlegen
+    turn    
+  *wenn
+  LinksDrehen
+  Schritt
+  wenn isLiving dann
+    turn
+    Schritt
+    RechtsDrehen
+    Hinlegen
+    RechtsDrehen
+    Schritt
+  *wenn
+  LinksDrehen
+  Schritt
+  wenn isLiving dann
+    LinksDrehen
+    Hinlegen
+    RechtsDrehen
+  *wenn
+  Schritt
+  wenn isLiving dann
+    turn
+    Schritt
+    RechtsDrehen
+    Hinlegen
+    RechtsDrehen
+    Schritt
+  *wenn
+  LinksDrehen
+  Schritt
+  wenn isLiving dann
+    LinksDrehen
+    Hinlegen
+    RechtsDrehen
+  *wenn
+  Schritt
+  wenn isLiving dann
+    turn
+    Schritt
+    RechtsDrehen
+    Hinlegen
+    RechtsDrehen
+    Schritt
+  *wenn
+  LinksDrehen
+  Schritt
+  wenn isLiving dann
+    LinksDrehen
+    Hinlegen
+    RechtsDrehen
+  *wenn
+  Schritt
+  wenn isLiving dann
+    turn
+    Schritt
+    RechtsDrehen
+    Hinlegen
+    RechtsDrehen
+    Schritt
+  *wenn
+  LinksDrehen
+  Schritt
+  LinksDrehen
+  
+  { Underpopulation }  
+  wenn NichtIstZiegel dann
+    Schritt
+    wenn isLiving dann
+      MarkeLöschen
+      MarkeSetzen(rot)
+    *wenn
+  *wenn
+  
+  wenn IstZiegel(1) dann
+    Aufheben
+    Schritt
+    wenn isLiving dann
+      MarkeLöschen
+      MarkeSetzen(rot)
+    *wenn
+  *wenn
+
+  { Stay Alive | Stay Dead }
+  wenn IstZiegel(2) dann
+    Aufheben(2)
+    Schritt
+  *wenn
+
+  { Live }
+  wenn IstZiegel(3) dann
+    Aufheben(3)
+    Schritt
+    wenn nicht isLiving dann
+      MarkeLöschen
+      MarkeSetzen(blau)
+    *wenn
+  *wenn
+  
+  { Overpopulation }
+  wenn isOverpopulated dann
+    wiederhole solange IstZiegel
+      Aufheben    
+    *wiederhole
+
+    Schritt
+    wenn isLiving dann
+      MarkeLöschen
+      MarkeSetzen(rot)
+    *wenn
+  *wenn
+  S  
+
+*Methode
+
+Methode setCell
+
+  wenn IstMarke(blau) dann
+    MarkeLöschen
+    MarkeSetzen(gelb)
+  sonst
+    wenn IstMarke(rot) dann
+      MarkeLöschen
+    *wenn
+  *wenn
+
+*Methode
+
+rPtr
+LinksDrehen
+Schritt
+RechtsDrehen
+Schritt
+
+wiederhole immer
+  wiederhole 20 mal
+    wiederhole 20 mal
+      checkCell
+      Schritt
+    *wiederhole
+    LinksDrehen
+    Schritt
+    LinksDrehen
+    Schritt(20)
+  *wiederhole
+
+  LinksDrehen
+  Schritt(20)
+  LinksDrehen
+
+  wiederhole 20 mal
+    wiederhole 20 mal
+      setCell
+      Schritt
+    *wiederhole
+    LinksDrehen
+    Schritt
+    LinksDrehen
+    Schritt(20)
+    LinksDrehen
+    LinksDrehen
+  *wiederhole
+
+  RechtsDrehen
+  Schritt(20)
+  LinksDrehen
+
+  warten(100)
+*wiederhole
+
+
+
